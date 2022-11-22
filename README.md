@@ -5,9 +5,11 @@ Pluming an architecture based on Huggingface models and api's for making artific
 `pip install transformers datasets`
 
 `python`
+
 `from BrainOS import *`
 
 `OS = BrainOS()`
+
 `OS.iamlive("I want to travel to Italy, how about you?")`
 
 
