@@ -2,7 +2,7 @@
 
 Pluming an architecture based on Huggingface models and api's for making artificial awareness.
 
-pip install transformers datasets
+Inline `pip install transformers datasets`
 
 Inline `python`
 Inline `from BrainOS import *`
