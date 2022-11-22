@@ -4,11 +4,11 @@ Pluming an architecture based on Huggingface models and api's for making artific
 
 pip install transformers datasets
 
-python
-from BrainOS import *
+Inline `python`
+Inline `from BrainOS import *`
 
-OS = BrainOS()
-OS.iamlive("I want to travel to Italy, how about you?")
+Inline `OS = BrainOS()`
+Inline `OS.iamlive("I want to travel to Italy, how about you?")`
 
 
 An rough idea about the software architecture:
