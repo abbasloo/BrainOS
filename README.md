@@ -1,6 +1,6 @@
 # BrainOS
 
-Pluming an architecture by Huggingface models and api's for making artificial awareness.
+Pluming an architecture by [huggingface](https://huggingface.co/) models and api's for making artificial awareness.
 
 `pip install transformers datasets`
 
