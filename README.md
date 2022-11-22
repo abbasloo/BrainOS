@@ -20,8 +20,8 @@ An rough idea about the software architecture:
 
 Todo:
 
-a flask interface
+  - a flask interface
 
-a short memory with summarization
+  - a short memory with summarization
 
-better choice of "points of view" and "impacts" based on similarty
+  - better choice of "points of view" and "impacts" based on similarty
