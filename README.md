@@ -22,6 +22,8 @@ Todo:
 
   - a flask interface
 
-  - a short memory with summarization
+  - a short memory with summarization (done)
 
-  - better choice of "points of view" and "impacts" based on similarty
+  - better choice of "points of view" and "impacts" based on similarty (done)
+
+  - inner dialog (done) 
