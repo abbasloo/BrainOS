@@ -1,5 +1,6 @@
 # BrainOS
-![](./BrainOS.jpg)
+
+<img src="BrainOS.jpg" width="100" height="100">
 
 Pluming an architecture by [huggingface](https://huggingface.co/) models and api's for making artificial awareness.
 
