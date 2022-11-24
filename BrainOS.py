@@ -6,8 +6,8 @@ import time
 import random
 
 
-tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-large")
-model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-large")
+tokenizerInnerDialog = AutoTokenizer.from_pretrained("microsoft/DialoGPT-large")
+modelInnerDialog = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-large")
 generator = pipeline('text-generation', model='gpt2')
 summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
 similarity = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
@@ -16,10 +16,10 @@ empty = '. '
 
 def InnerDialog(you):
     for step in range(1):
-        new_user_input_ids = tokenizer.encode(you + tokenizer.eos_token, return_tensors='pt')
+        new_user_input_ids = tokenizerInnerDialog.encode(you + tokenizerInnerDialog.eos_token, return_tensors='pt')
         bot_input_ids = torch.cat([chat_history_ids, new_user_input_ids], dim=-1) if step > 0 else new_user_input_ids
-        chat_history_ids = model.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizer.eos_token_id)
-        me = tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)
+        chat_history_ids = modelInnerDialog.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizerInnerDialog.eos_token_id)
+        me = tokenizerInnerDialog.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)
     return me    
     
 def State(what_the_world_is_like_now):
@@ -85,7 +85,7 @@ def Utility(BusyMind, insentence, threshold):
         score = sum(embeddings[0]*embeddings[1])
         ii += 1
         if score > threshold:
-            _my_feelings += empty + sentence + empty + InnerDialog(sentence) 
+            _my_feelings += empty + sentence + empty + InnerDialog(sentence + empty + insentence) 
             #_my_feelings += empty +summarizer(sentence + empty + InnerDialog(sentence), max_length=130, min_length=30, do_sample=False)[0]['summary_text']  
             i += 1    
         if ii > 100:
@@ -126,10 +126,10 @@ class BrainOS:
 
     def PrimaryConsciousness(self, what_the_world_is_like_now):
         mems = Memory(self.BusyMind, self.Memory , what_the_world_is_like_now, self.threshold)
-        influences = State(what_the_world_is_like_now + empty + mems)
+        influences = State(mems + empty + what_the_world_is_like_now)
         my_points_of_view = HowTheWorldEvolves(self.BusyMind, what_the_world_is_like_now, self.threshold)
         my_impacts = WhatMyActionsDo(self.BusyMind, what_the_world_is_like_now, self.threshold)
-        what_the_world_is_like_now += empty + influences + empty + my_points_of_view + empty + my_impacts 
+        what_the_world_is_like_now += empty + my_points_of_view + empty + my_impacts + empty + influences 
         what_the_world_is_like_now = summarizer(what_the_world_is_like_now, max_length=130, min_length=30, do_sample=False)[0]['summary_text'] 
         what_it_will_be_like_if_i_do_an_action = generator(what_the_world_is_like_now, max_length=130, num_return_sequences=1)[0]['generated_text'] 
         return what_it_will_be_like_if_i_do_an_action
@@ -156,7 +156,7 @@ class BrainOS:
     
     def iamlive(self, what_the_world_is_like_now):
         if len(self.Memory) > 1:
-            self.Memory = summarizer(self.Memory, max_length=30, min_length=10, do_sample=False)[0]['summary_text']
+            self.Memory = summarizer(self.Memory, max_length=200, min_length=100, do_sample=False)[0]['summary_text']
         what_the_world_is_like_now += empty + self.what_the_world_is_like_then
         for _ in range(self.BrainCycle):
             what_it_will_be_like_if_i_do_an_action = self.PrimaryConsciousness(what_the_world_is_like_now)
